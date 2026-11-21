@@ -644,6 +644,7 @@
       body:has(#modalLPPM:not(.hidden)),
       body:has(#modalPKL:not(.hidden)),
       body.modal-open {
+        overflow: hidden !important;
         #mainHeader {
           opacity: 0 !important;
           visibility: hidden !important;
@@ -654,6 +655,10 @@
         #mobileNavGuide {
           display: none !important;
         }
+      }
+
+      body.modal-open .presentation-slide.active {
+        overflow-y: hidden !important;
       }
     </style>
   </head>
@@ -2033,27 +2038,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- 3. SCRIPT BUKA / TUTUP MODAL NEONATAL -->
-            <script>
-              function openModalProyekNeonatal() {
-                const modal = document.getElementById("modalProyekNeonatal");
-                if (modal) modal.classList.remove("hidden");
-              }
-
-              function closeModalProyekNeonatal() {
-                const modal = document.getElementById("modalProyekNeonatal");
-                if (modal) modal.classList.add("hidden");
-              }
-
-              // Tutup modal jika user mengklik area gelap di luar modal
-              window.addEventListener("click", function (e) {
-                const modal = document.getElementById("modalProyekNeonatal");
-                if (e.target === modal) {
-                  closeModalProyekNeonatal();
-                }
-              });
-            </script>
           </div>
         </div>
       </section>
@@ -2375,26 +2359,6 @@
               </div>
             </div>
 
-            <!-- ==================== SCRIPT BUKA / TUTUP MODAL ==================== -->
-            <script>
-              function openModalDataEntry() {
-                const modal = document.getElementById("modalDataEntry");
-                if (modal) modal.classList.remove("hidden");
-              }
-
-              function closeModalDataEntry() {
-                const modal = document.getElementById("modalDataEntry");
-                if (modal) modal.classList.add("hidden");
-              }
-
-              // Tutup modal jika user mengklik area gelap di luar modal
-              window.addEventListener("click", function (e) {
-                const modal = document.getElementById("modalDataEntry");
-                if (e.target === modal) {
-                  closeModalDataEntry();
-                }
-              });
-            </script>
             <!-- ==================== KARTU SLIDE 2 (LPPM UNIVERSITAS CIPASUNG) ==================== -->
             <div
               onclick="openModalLPPM()"
@@ -2597,26 +2561,6 @@
               </div>
             </div>
 
-            <!-- ==================== SCRIPT BUKA / TUTUP MODAL LPPM ==================== -->
-            <script>
-              function openModalLPPM() {
-                const modal = document.getElementById("modalLPPM");
-                if (modal) modal.classList.remove("hidden");
-              }
-
-              function closeModalLPPM() {
-                const modal = document.getElementById("modalLPPM");
-                if (modal) modal.classList.add("hidden");
-              }
-
-              // Tutup modal jika user mengklik area gelap di luar modal
-              window.addEventListener("click", function (e) {
-                const modal = document.getElementById("modalLPPM");
-                if (e.target === modal) {
-                  closeModalLPPM();
-                }
-              });
-            </script>
             <!-- ==================== KARTU PRAKTEK KERJA INDUSTRI (NIKA KOMPUTER) ==================== -->
             <div
               onclick="openModalPKL()"
@@ -2830,27 +2774,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- ==================== SCRIPT BUKA / TUTUP MODAL PKL ==================== -->
-            <script>
-              function openModalPKL() {
-                const modal = document.getElementById("modalPKL");
-                if (modal) modal.classList.remove("hidden");
-              }
-
-              function closeModalPKL() {
-                const modal = document.getElementById("modalPKL");
-                if (modal) modal.classList.add("hidden");
-              }
-
-              // Tutup modal jika user mengklik area gelap di luar modal
-              window.addEventListener("click", function (e) {
-                const modal = document.getElementById("modalPKL");
-                if (e.target === modal) {
-                  closeModalPKL();
-                }
-              });
-            </script>
           </div>
         </div>
       </section>
@@ -3068,35 +2991,99 @@
     </div>
     <!-- Script Kontrol Transisi, Navigasi, & Pop-Up Detail Proyek -->
     <script>
-      function openModalProyek2() {
-        document.getElementById("modalProyek2").classList.remove("hidden");
+      // ==================== UNIFIED MODAL SYSTEM (VIEWPORT PINNING FIX) ====================
+      const ALL_MODAL_IDS = [
+        "modalProyek3",
+        "modalSertifikat",
+        "modalProyek2",
+        "modalProyekNeonatal",
+        "modalDataEntry",
+        "modalLPPM",
+        "modalPKL"
+      ];
+
+      // Memindahkan semua modal langsung ke <body> agar bebas dari context CSS transform & scroll slide parent
+      function relocateAllModalsToBody() {
+        ALL_MODAL_IDS.forEach(function (id) {
+          const el = document.getElementById(id);
+          if (el && el.parentElement !== document.body) {
+            document.body.appendChild(el);
+          }
+        });
       }
 
-      function closeModalProyek2() {
-        document.getElementById("modalProyek2").classList.add("hidden");
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", relocateAllModalsToBody);
+      } else {
+        relocateAllModalsToBody();
       }
 
-      // Tutup modal jika user mengklik area gelap di luar modal
+      function showModalById(id) {
+        const modal = document.getElementById(id);
+        if (!modal) return;
+
+        // Pastikan modal menempel langsung pada <body>
+        if (modal.parentElement !== document.body) {
+          document.body.appendChild(modal);
+        }
+
+        modal.classList.remove("hidden");
+        document.body.classList.add("modal-open");
+
+        // Reset scroll modal dan inner content agar selalu di posisi atas tengah layar
+        modal.scrollTop = 0;
+        const innerScroll = modal.querySelector(".overflow-y-auto");
+        if (innerScroll) {
+          innerScroll.scrollTop = 0;
+        }
+      }
+
+      function hideModalById(id) {
+        const modal = document.getElementById(id);
+        if (!modal) return;
+        modal.classList.add("hidden");
+
+        const anyOpen = document.querySelector(".fixed[id^='modal']:not(.hidden)");
+        if (!anyOpen) {
+          document.body.classList.remove("modal-open");
+        }
+      }
+
+      // Handler untuk tiap tombol modal (Proyek & Pengalaman Kerja)
+      function openModalProyek3() { showModalById("modalProyek3"); }
+      function closeModalProyek3() { hideModalById("modalProyek3"); }
+
+      function openModalSertifikat() { showModalById("modalSertifikat"); }
+      function closeModalSertifikat() { hideModalById("modalSertifikat"); }
+
+      function openModalProyek2() { showModalById("modalProyek2"); }
+      function closeModalProyek2() { hideModalById("modalProyek2"); }
+
+      function openModalProyekNeonatal() { showModalById("modalProyekNeonatal"); }
+      function closeModalProyekNeonatal() { hideModalById("modalProyekNeonatal"); }
+
+      function openModalDataEntry() { showModalById("modalDataEntry"); }
+      function closeModalDataEntry() { hideModalById("modalDataEntry"); }
+
+      function openModalLPPM() { showModalById("modalLPPM"); }
+      function closeModalLPPM() { hideModalById("modalLPPM"); }
+
+      function openModalPKL() { showModalById("modalPKL"); }
+      function closeModalPKL() { hideModalById("modalPKL"); }
+
+      // Tutup modal jika user mengklik area backdrop gelap di luar modal
       window.addEventListener("click", function (e) {
-        const modal = document.getElementById("modalProyek2");
-        if (e.target === modal) {
-          closeModalProyek2();
+        if (e.target && e.target.classList && e.target.classList.contains("fixed") && ALL_MODAL_IDS.includes(e.target.id)) {
+          hideModalById(e.target.id);
         }
       });
 
-      <!-- ==================== JAVASCRIPT UNTUK MODAL ==================== -->
-
-      function openModalSertifikat() {
-        document.getElementById("modalSertifikat").classList.remove("hidden");
-      }
-      function closeModalSertifikat() {
-        document.getElementById("modalSertifikat").classList.add("hidden");
-      }
-      // Tutup modal jika user mengklik area gelap di luar modal
-      window.addEventListener("click", function (e) {
-        const modal = document.getElementById("modalSertifikat");
-        if (e.target === modal) {
-          closeModalSertifikat();
+      // Tutup modal dengan tombol Escape
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          ALL_MODAL_IDS.forEach(function (id) {
+            hideModalById(id);
+          });
         }
       });
 
@@ -3333,23 +3320,6 @@
         },
         { passive: true },
       );
-
-      <!-- ==================== JAVASCRIPT UNTUK MODAL PROYEK 3 ==================== -->
-      function openModalProyek3() {
-        document.getElementById("modalProyek3").classList.remove("hidden");
-      }
-
-      function closeModalProyek3() {
-        document.getElementById("modalProyek3").classList.add("hidden");
-      }
-
-      // Tutup modal jika user mengklik area gelap di luar modal
-      window.addEventListener("click", function (e) {
-        const modal = document.getElementById("modalProyek3");
-        if (e.target === modal) {
-          closeModalProyek3();
-        }
-      });
 
       const menuToggle = document.getElementById("menuToggle");
       const navMenu = document.getElementById("navMenu");
