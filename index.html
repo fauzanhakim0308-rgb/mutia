@@ -393,7 +393,7 @@
           align-items: stretch !important;
           justify-content: flex-start !important;
 
-          padding: 72px 18px 28px !important;
+          padding: 72px 18px 84px !important;
           margin: 0 !important;
 
           overflow-x: hidden !important;
@@ -554,7 +554,105 @@
       @media screen and (max-width: 767px) and (max-height: 700px) {
         section.presentation-slide {
           padding-top: 62px !important;
-          padding-bottom: 20px !important;
+          padding-bottom: 84px !important;
+        }
+      }
+
+      /* Animasi Ikon & Tombol Petunjuk Navigasi HP */
+      @keyframes guideArrowMove {
+        0%, 100% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+      }
+
+      .animate-guide-arrow {
+        animation: guideArrowMove 1.1s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        display: inline-block;
+      }
+
+      @keyframes guidePulseGlow {
+        0%, 100% {
+          box-shadow: 0 4px 18px -2px rgba(245, 158, 11, 0.45), 0 0 0 0 rgba(245, 158, 11, 0.4);
+        }
+        50% {
+          box-shadow: 0 6px 22px 0 rgba(245, 158, 11, 0.6), 0 0 0 7px rgba(245, 158, 11, 0);
+        }
+      }
+
+      .guide-pulse {
+        animation: guidePulseGlow 2.2s infinite ease-in-out;
+      }
+
+      @keyframes guideAttentionBounce {
+        0%, 100% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.08) translateY(-3px);
+        }
+        50% {
+          transform: scale(0.96) translateY(1px);
+        }
+        75% {
+          transform: scale(1.04) translateY(-1px);
+        }
+      }
+
+      .guide-attention {
+        animation: guideAttentionBounce 0.5s ease-out;
+      }
+
+      @keyframes tooltipFadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(8px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .guide-tooltip-show {
+        animation: tooltipFadeInUp 0.25s ease-out forwards;
+      }
+
+      @keyframes titleFade {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-title-fade {
+        animation: titleFade 0.3s ease-out;
+      }
+
+      /* Sembunyikan navbar utama (#mainHeader) dan floating nav saat modal popup terbuka */
+      body:has(#modalProyek3:not(.hidden)),
+      body:has(#modalSertifikat:not(.hidden)),
+      body:has(#modalProyek2:not(.hidden)),
+      body:has(#modalProyekNeonatal:not(.hidden)),
+      body:has(#modalDataEntry:not(.hidden)),
+      body:has(#modalLPPM:not(.hidden)),
+      body:has(#modalPKL:not(.hidden)),
+      body.modal-open {
+        #mainHeader {
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+          transform: translate(-50%, -20px) !important;
+          transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s !important;
+        }
+        #mobileNavGuide {
+          display: none !important;
         }
       }
     </style>
@@ -570,7 +668,7 @@
 
     <header
       id="mainHeader"
-      class="fixed top-6 left-1/2 -translate-x-1/2 z-50"
+      class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300"
       style="width: max-content; max-width: calc(100% - 20px)"
     >
       <!-- Tombol hamburger: hanya tampil di HP -->
@@ -643,10 +741,10 @@
         data-index="0"
       >
         <div
-          class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10"
+          class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10"
         >
           <!-- Kolom Teks Kiri -->
-          <div class="lg:col-span-7 flex flex-col items-start space-y-6">
+          <div class="lg:col-span-6 flex flex-col items-start space-y-6">
             <div
               class="animate-item delay-1 inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-800 text-xs font-bold tracking-widest uppercase shadow-sm"
             >
@@ -658,13 +756,13 @@
 
             <div class="animate-item delay-2 space-y-2">
               <h1
-                class="font-serif text-5xl md:text-7xl font-bold tracking-tight text-slate-900 leading-[1.1]"
+                class="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-[1.1]"
               >
-                Mutia Maharani ,
+                Mutia Maharani,
                 <span class="text-amber-600 italic">S.Kom</span>
               </h1>
               <p
-                class="font-script text-3xl md:text-4xl text-amber-700 font-semibold transform -rotate-1"
+                class="font-script text-2xl sm:text-3xl lg:text-4xl text-amber-700 font-semibold transform -rotate-1"
               >
                 Transforming raw data into actionable insights &amp; robust
                 systems.
@@ -672,82 +770,157 @@
             </div>
 
             <p
-              class="animate-item delay-3 text-slate-600 text-base md:text-lg leading-relaxed max-w-xl text-justify"
+              class="animate-item delay-3 text-slate-600 text-base md:text-lg leading-relaxed max-w-xl text-left"
             >
-              Memiliki minat di bidang
-              <strong class="text-slate-900 font-semibold">Data Analyst</strong
-              >,
-              <strong class="text-slate-900 font-semibold"
-                >Visualisasi Data</strong
-              >, dan
-              <strong class="text-slate-900 font-semibold"
-                >Analisis Sistem</strong
-              >. Mengubah data kompleks menjadi wawasan visual yang interaktif.
+              Memiliki minat mendalam di bidang
+              <strong class="text-slate-900 font-semibold">Data Analyst</strong>,
+              <strong class="text-slate-900 font-semibold">Visualisasi Data</strong>, dan
+              <strong class="text-slate-900 font-semibold">Analisis Sistem</strong>. Mengubah data kompleks menjadi wawasan visual yang interaktif dan bernilai strategis.
             </p>
 
             <div
-              class="animate-item delay-4 flex flex-wrap items-center gap-4 pt-2"
+              class="animate-item delay-4 flex flex-wrap items-center gap-4 pt-1"
             >
               <!-- Tombol Review CV Utama -->
               <a
-                href="https://drive.google.com/drive/folders/1plVk7LSW8RUEWGo_sxoX27XA73EfbvSG?usp=sharing"
+                href="assets/Curriculum%20Vitae%20-%20Mutia%20Maharani.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="px-8 py-4 bg-amber-500 text-white rounded-full font-bold text-sm hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/25 flex items-center gap-3 group"
+                class="px-7 py-3.5 bg-amber-500 text-white rounded-full font-bold text-sm hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/25 flex items-center gap-3 group"
               >
                 <span>Review CV</span>
                 <i
                   class="fa-solid fa-file-arrow-down group-hover:translate-y-0.5 transition-transform"
                 ></i>
               </a>
+
+              <!-- Tombol Sekunder ke Proyek -->
+              <button
+                type="button"
+                onclick="goToSlide(3)"
+                class="px-6 py-3.5 bg-white/90 hover:bg-white text-slate-700 hover:text-amber-600 border border-amber-200/80 hover:border-amber-400 rounded-full font-bold text-sm transition-all shadow-sm flex items-center gap-2 group"
+              >
+                <span>Lihat Portofolio</span>
+                <i
+                  class="fa-solid fa-arrow-right text-xs text-amber-500 group-hover:translate-x-1 transition-transform"
+                ></i>
+              </button>
+            </div>
+
+            <!-- Mini Highlight Badge -->
+            <div
+              class="animate-item delay-4 pt-1 flex flex-wrap items-center gap-4 text-xs text-slate-500 font-medium"
+            >
+              <div
+                class="flex items-center gap-2 bg-amber-50/70 px-3.5 py-1.5 rounded-full border border-amber-200/50"
+              >
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span class="text-slate-700"
+                  >Terbuka untuk Kolaborasi &amp; Peluang Karir</span
+                >
+              </div>
+              <div class="flex items-center gap-1.5 text-slate-600">
+                <i class="fa-solid fa-graduation-cap text-amber-600"></i>
+                <span>S1 Sistem Informasi</span>
+              </div>
             </div>
           </div>
 
-          <!-- Kolom Foto Kanan (Interaktif, Teks Tegak Lurus, & Masking Bersih) -->
+          <!-- Kolom Foto Kanan (Proporsional, Berbingkai Estetis, & Bersih) -->
           <div
-            class="lg:col-span-5 relative flex items-center justify-center animate-item delay-3 pt-6 cursor-pointer group select-none"
-            onclick="toggleInfoSystem(this)"
+            class="lg:col-span-6 relative flex items-center justify-center animate-item delay-3 select-none"
           >
-            <!-- Efek Background Teks (Tegak lurus, di area lengan, naik ke depan saat diklik) -->
+            <!-- Background Aura / Glow -->
             <div
-              class="absolute inset-0 flex flex-col items-center justify-center pt-24 pointer-events-none select-none z-10 leading-[0.85] text-center transition-all duration-500 ease-out opacity-25 group-hover:opacity-45 group-[.active-system]:!z-40 group-[.active-system]:!opacity-100 group-[.active-system]:scale-105"
-            >
-              <span
-                class="font-serif text-5xl md:text-6xl font-bold text-slate-900 tracking-wide uppercase drop-shadow-sm not-italic transition-transform duration-500 group-[.active-system]:-translate-y-2"
-              >
-                Information
-              </span>
-              <span
-                class="font-serif text-6xl md:text-7xl font-bold text-amber-600 tracking-wider uppercase drop-shadow-md not-italic mt-2 transition-transform duration-500 group-[.active-system]:translate-y-2"
-              >
-                System
-              </span>
-            </div>
+              class="absolute w-[360px] sm:w-[440px] h-[460px] sm:h-[520px] bg-gradient-to-tr from-amber-200/35 via-amber-100/25 to-transparent rounded-[3rem] blur-2xl pointer-events-none"
+            ></div>
 
-            <!-- Kontainer Foto Diperbesar dengan Masking Bersih -->
+            <!-- Wrapper Kartu & Floating Badges (tanpa overflow-hidden agar badge melayang keluar dengan sempurna) -->
             <div
-              class="relative z-20 flex flex-col items-center transition-transform duration-500 group-[.active-system]:scale-105"
+              class="relative w-[290px] sm:w-[380px] lg:w-[420px] h-[410px] sm:h-[500px] lg:h-[540px]"
             >
+              <!-- Kartu Pedestal Studio Frame (overflow-hidden khusus untuk foto & watermark) -->
               <div
-                class="w-[300px] h-[390px] md:w-[350px] md:h-[450px] overflow-hidden transform transition-all duration-500 relative"
-                style="
-                  mask-image: radial-gradient(
-                    circle at center,
-                    black 70%,
-                    transparent 100%
-                  );
-                  -webkit-mask-image: radial-gradient(
-                    circle at center,
-                    black 70%,
-                    transparent 100%
-                  );
-                "
+                class="w-full h-full rounded-[2.5rem] bg-gradient-to-b from-amber-100/80 via-amber-50/50 to-white/30 border border-amber-300/60 shadow-2xl shadow-amber-900/10 flex items-end justify-center overflow-hidden relative group"
               >
-                <img
-                  src="assets/fotouppp.png"
-                  alt="Mutia Maharani"
-                  class="w-full h-full object-cover object-top"
-                />
+                <!-- Typographic Watermark Halus di Belakang Foto (Tidak Menabrak Wajah/Badan) -->
+                <div
+                  class="absolute inset-x-0 top-7 flex flex-col items-center justify-start pointer-events-none select-none z-0 opacity-15 leading-tight text-center"
+                >
+                  <span
+                    class="font-serif text-2xl sm:text-4xl font-black text-slate-900 tracking-[0.25em] uppercase"
+                  >
+                    INFORMATION
+                  </span>
+                  <span
+                    class="font-serif text-3xl sm:text-5xl font-black text-amber-700 tracking-[0.3em] uppercase mt-1"
+                  >
+                    SYSTEM
+                  </span>
+                </div>
+
+                <!-- Foto Mutia Maharani dengan Masking Halus di Ujung Bawah -->
+                <div
+                  class="relative z-10 w-full h-[95%] flex items-end justify-center"
+                  style="
+                    mask-image: linear-gradient(
+                      to bottom,
+                      black 86%,
+                      transparent 100%
+                    );
+                    -webkit-mask-image: linear-gradient(
+                      to bottom,
+                      black 86%,
+                      transparent 100%
+                    );
+                  "
+                >
+                  <img
+                    src="assets/fotouppp.png"
+                    alt="Mutia Maharani"
+                    class="w-full h-full object-contain object-bottom transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </div>
+              </div>
+
+              <!-- Floating Micro-Badge Kiri Bawah: Data Analytics -->
+              <div
+                class="absolute bottom-5 left-1 sm:-left-6 z-30 bg-white/95 backdrop-blur-md px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-amber-200/70 shadow-xl shadow-slate-900/10 flex items-center gap-2.5 sm:gap-3 transform -rotate-2 hover:rotate-0 transition-transform duration-300"
+              >
+                <div
+                  class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-amber-500/15 text-amber-600 flex items-center justify-center font-bold text-xs sm:text-sm"
+                >
+                  <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div>
+                  <p
+                    class="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-slate-400"
+                  >
+                    Keahlian
+                  </p>
+                  <p class="text-xs font-bold text-slate-800">Data Analytics</p>
+                </div>
+              </div>
+
+              <!-- Floating Micro-Badge Kanan Atas: Sistem Informasi -->
+              <div
+                class="absolute top-6 right-1 sm:-right-6 z-30 bg-white/95 backdrop-blur-md px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-amber-200/70 shadow-xl shadow-slate-900/10 flex items-center gap-2.5 sm:gap-3 transform rotate-2 hover:rotate-0 transition-transform duration-300"
+              >
+                <div
+                  class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-emerald-500/15 text-emerald-600 flex items-center justify-center font-bold text-xs sm:text-sm"
+                >
+                  <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                  <p
+                    class="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-slate-400"
+                  >
+                    Pendidikan
+                  </p>
+                  <p class="text-xs font-bold text-slate-800">
+                    Sistem Informasi
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -761,52 +934,131 @@
         }
       </script>
       <!-- ==================== SLIDE 2: ABOUT ==================== -->
-      <section class="presentation-slide px-8 lg:px-20 pt-16" data-index="1">
+      <section class="presentation-slide px-6 lg:px-20 pt-16" data-index="1">
         <div
-          class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10"
+          class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10"
         >
-          <div class="lg:col-span-5 relative animate-item delay-2">
+          <!-- Kolom Foto & Profil Ringkas Kiri -->
+          <div
+            class="lg:col-span-5 relative animate-item delay-2 flex justify-center"
+          >
+            <!-- Ambient Glow -->
             <div
-              class="relative w-full max-w-md mx-auto h-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100"
+              class="absolute -inset-4 bg-gradient-to-tr from-amber-300/30 via-amber-100/20 to-transparent rounded-[3rem] blur-2xl pointer-events-none"
+            ></div>
+
+            <!-- Kartu Profil Studio -->
+            <div
+              class="relative w-full max-w-[260px] sm:max-w-[330px] lg:max-w-[370px] rounded-3xl sm:rounded-[2.5rem] bg-gradient-to-b from-amber-100/70 via-amber-50/40 to-white/40 border border-amber-300/50 shadow-2xl shadow-amber-900/10 p-3.5 sm:p-5 flex flex-col items-center group"
             >
-              <img
-                src="assets/IMG_EDIT-removebg-preview.png"
-                alt="Workspace"
-                class="block w-full h-auto object-contain opacity-90"
-              />
+              <!-- Frame Pas Foto Formal Bersih -->
               <div
-                class="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-slate-900/10 to-transparent pointer-events-none"
-              ></div>
+                class="w-full aspect-[4/5] rounded-2xl sm:rounded-[2rem] bg-gradient-to-tr from-amber-200/40 via-amber-100/30 to-amber-50/20 overflow-hidden relative flex items-end justify-center shadow-inner border border-white/60"
+              >
+                <img
+                  src="assets/IMG_EDIT-removebg-preview.png"
+                  alt="Mutia Maharani, S.Kom"
+                  class="w-full h-full object-contain object-bottom transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+
+              <!-- Kartu Prestasi / IPK -->
+              <div
+                class="mt-3 sm:mt-4 w-full bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-amber-200/60 shadow-md flex items-center justify-between"
+              >
+                <div class="flex items-center gap-2 sm:gap-2.5">
+                  <div
+                    class="w-7 sm:w-8 h-7 sm:h-8 rounded-xl bg-amber-500/15 text-amber-600 flex items-center justify-center font-bold text-xs"
+                  >
+                    <i class="fa-solid fa-graduation-cap"></i>
+                  </div>
+                  <div>
+                    <p
+                      class="text-[9px] uppercase font-bold tracking-wider text-slate-400"
+                    >
+                      Akademik
+                    </p>
+                    <p class="text-xs font-extrabold text-slate-800">
+                      IPK 3.83 / 4.00
+                    </p>
+                  </div>
+                </div>
+                <span
+                  class="text-[10px] font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 bg-amber-100/80 text-amber-800 rounded-full border border-amber-200"
+                >
+                  S.Kom
+                </span>
+              </div>
+
+              <!-- Quick Info Universitas & Lokasi -->
+              <div
+                class="mt-2.5 sm:mt-3 flex items-center justify-center gap-3 text-xs text-slate-600 font-medium"
+              >
+                <span class="flex items-center gap-1.5">
+                  <i
+                    class="fa-solid fa-building-columns text-amber-600 text-xs"
+                  ></i>
+                  <span>Univ. Cipasung</span>
+                </span>
+                <span class="text-slate-300">•</span>
+                <span class="flex items-center gap-1.5">
+                  <i
+                    class="fa-solid fa-location-dot text-amber-600 text-xs"
+                  ></i>
+                  <span>Tasikmalaya</span>
+                </span>
+              </div>
             </div>
           </div>
 
+          <!-- Kolom Konten & Detail Kanan -->
           <div class="lg:col-span-7 space-y-6">
             <div
-              class="animate-item delay-1 inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-800 text-xs font-bold tracking-widest uppercase"
+              class="animate-item delay-1 inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-800 text-xs font-bold tracking-widest uppercase shadow-sm"
             >
+              <i class="fa-solid fa-user-tie text-amber-600"></i>
               <span>Tentang Saya</span>
             </div>
-            <h2
-              class="animate-item delay-2 font-serif text-4xl md:text-5xl font-bold text-slate-900"
+
+            <div class="animate-item delay-2 space-y-2">
+              <h2
+                class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight"
+              >
+                Halo, Saya <span class="text-amber-600">Mutia Maharani</span>
+              </h2>
+              <p class="text-slate-700 text-base font-medium">
+                Lulusan S1 Sistem Informasi yang berfokus pada Analisis Data,
+                Pemodelan Proses Bisnis, dan Perancangan Solusi Digital.
+              </p>
+            </div>
+
+            <!-- Paragraf Narasi yang Mengalir & Rapi -->
+            <div
+              class="animate-item delay-3 space-y-4 text-slate-600 text-base md:text-lg leading-relaxed text-left"
             >
-              Hallo Saya Mutia Maharani
-            </h2>
-            <p
-              class="animate-item delay-3 text-slate-600 text-base md:text-lg leading-relaxed text-justify"
-            >
-              Lulusan S1 Sistem Informasi dengan IPK 3,83 yang memiliki
-              ketertarikan pada pengolahan data dan optimalisasi proses bisnis.
-              Memiliki pengalaman menganalisis pola pembelian konsumen melalui
-              penelitian tugas akhir, serta mengidentifikasi proses bisnis dan
-              kebutuhan pengguna melalui proyek sistem informasi selama
-              perkuliahan dan magang di LPPM Universitas Cipasung Tasikmalaya.
-              Menguasai dasar pengolahan dan visualisasi data menggunakan
-              Python, Microsoft Excel, dan Power BI, didukung kemampuan dalam
-              penyusunan dokumentasi dan pengujian fungsional sistem. Teliti dan
-              sistematis dalam bekerja, mampu mengikuti prosedur, serta memiliki
-              kemauan untuk terus belajar dan berkembang melalui pengalaman
-              kerja.
-            </p>
+              <p>
+                Saya memiliki ketertarikan mendalam dalam mengolah data mentah
+                menjadi wawasan strategis. Berpengalaman dalam membersihkan dan
+                menganalisis lebih dari
+                <strong class="text-slate-900 font-semibold"
+                  >24.000 data transaksi ritel</strong
+                >
+                menggunakan algoritma data mining (FP-Growth), serta
+                menyajikannya dalam bentuk dashboard interaktif berbasis
+                <strong class="text-slate-900 font-semibold"
+                  >Power BI dan Microsoft Excel</strong
+                >.
+              </p>
+              <p>
+                Selain analisis data, saya memiliki kompetensi dalam memetakan
+                proses bisnis, perancangan sistem berbasis UML, hingga pengujian
+                fungsional (<em class="text-slate-800 font-semibold not-italic"
+                  >Black Box Testing</em
+                >) yang terasah melalui pengalaman magang di LPPM Universitas
+                Cipasung dan berbagai proyek kolaboratif. Teliti, terstruktur,
+                serta siap memberikan kontribusi nyata.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -1005,7 +1257,7 @@
 
       <!-- ==================== SLIDE 4: PROJECT ==================== -->
       <section class="presentation-slide px-8 lg:px-20 pt-16" data-index="3">
-        <div class="max-w-6xl w-full space-y-10 relative z-10">
+        <div class="max-w-7xl w-full space-y-8 relative z-10 mx-auto">
           <div class="text-center space-y-2 max-w-2xl mx-auto">
             <div
               class="animate-item delay-1 inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-800 text-xs font-bold tracking-widest uppercase"
@@ -1013,20 +1265,20 @@
               <span>Karya &amp; Proyek</span>
             </div>
             <h2
-              class="animate-item delay-2 font-serif text-4xl md:text-5xl font-bold text-slate-900"
+              class="animate-item delay-2 font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900"
             >
               Portofolio Pilihan
             </h2>
-            <p class="animate-item delay-3 text-slate-500 text-sm">
+            <p class="animate-item delay-3 text-slate-500 text-xs md:text-sm">
               Klik pada salah satu kartu proyek di bawah untuk melihat detail
               lengkap.
             </p>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             <!-- ==================== KARTU PROYEK 1 SKRIPSI ==================== -->
             <div
               onclick="openModalProyek3()"
-              class="animate-item delay-4 group relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-amber-900/10 shadow-lg hover:shadow-2xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+              class="animate-item delay-1 group relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-amber-900/10 shadow-lg hover:shadow-2xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full"
             >
               <!-- Top Accent Glow Bar -->
               <div
@@ -1037,7 +1289,7 @@
                 <!-- Gambar Proyek dengan Overlay Hover -->
                 <div class="h-44 overflow-hidden relative bg-slate-100">
                   <img
-                    src="assets/skripsi.jpeg"
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80"
                     alt="Tugas Akhir - FP-Growth & Power BI"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -1048,64 +1300,53 @@
                       class="bg-white text-slate-900 px-4 py-2 rounded-full text-xs font-bold shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2"
                     >
                       <i class="fa-solid fa-graduation-cap text-amber-600"></i>
-                      Lihat Skripsi &rarr;
+                      Lihat Detail &rarr;
                     </span>
                   </div>
                   <div
-                    class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-md"
+                    class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md"
                   >
-                    Undergraduate Thesis
+                    Tugas Akhir / Skripsi
                   </div>
                 </div>
 
                 <!-- Ringkasan Singkat Kartu -->
                 <div class="p-5 space-y-2">
                   <h3
-                    class="font-serif text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors"
+                    class="font-serif text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors min-h-[3rem] line-clamp-2 leading-snug"
                   >
-                    Analisis Pola Pembelian Konsumen (FP-Growth &amp; Power BI)
+                    Pola Pembelian Konsumen (FP-Growth &amp; Power BI)
                   </h3>
-                  <p class="text-slate-600 text-xs line-clamp-3 text-justify">
-                    Penelitian tugas akhir mengenai penerapan Algoritma
-                    FP-Growth menggunakan Python dan Visualisasi Data Power BI.
+                  <p class="text-slate-600 text-xs line-clamp-3 leading-relaxed min-h-[3rem]">
+                    Penerapan algoritma FP-Growth dengan Python dan visualisasi interaktif Power BI untuk analisis pola belanja pelanggan.
                   </p>
                 </div>
               </div>
 
               <!-- Footer Kartu Depan: Badge Tools -->
               <div
-                class="px-5 py-3 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between"
+                class="px-4 py-3 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between text-xs mt-auto"
               >
                 <span
-                  class="text-xs font-semibold text-slate-500 flex items-center gap-1.5"
+                  class="font-semibold text-slate-500 flex items-center gap-1.5"
                 >
-                  <i class="fa-solid fa-chart-line text-amber-500"></i> Data
-                  Science &amp; BI
+                  <i class="fa-solid fa-chart-line text-amber-500"></i> Data Science
                 </span>
                 <span
-                  class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-md text-[11px] font-bold flex items-center gap-1"
+                  class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-md text-[11px] font-bold flex items-center gap-1"
                 >
                   <i class="fa-solid fa-brain text-amber-600"></i> FP-Growth
-                  &amp; Power BI
                 </span>
               </div>
             </div>
             <!-- ==================== MODAL POPUP PROYEK 1 (DETAIL TUGAS AKHIR & QR CODE) ==================== -->
             <div
               id="modalProyek3"
-              class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
+              class="fixed inset-0 z-[60] hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
             >
               <div
                 class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto"
               >
-                <!-- Tombol Close Modal -->
-                <button
-                  onclick="closeModalProyek3()"
-                  class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition-colors"
-                >
-                  <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-
                 <!-- Header Modal Gambar -->
                 <div class="h-48 relative bg-slate-900 overflow-hidden">
                   <img
@@ -1199,19 +1440,32 @@
                         Drive.
                       </p>
 
-                      <!-- Button Buka Dokumen Skripsi -->
-                      <a
-                        href="https://drive.google.com/drive/folders/1zoyFJtPcIjMzfPbObNoZtuFmO9AgoVNz?usp=sharing"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+                      <!-- Button Aksi: Buka Dokumen Skripsi & Close -->
+                      <div
+                        class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-1"
                       >
-                        <i class="fa-brands fa-google-drive text-sm"></i>
-                        Buka Dokumen Skripsi
-                        <i
-                          class="fa-solid fa-arrow-up-right-from-square text-[10px]"
-                        ></i>
-                      </a>
+                        <a
+                          href="https://drive.google.com/drive/folders/1zoyFJtPcIjMzfPbObNoZtuFmO9AgoVNz?usp=sharing"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+                        >
+                          <i class="fa-brands fa-google-drive text-sm"></i>
+                          Buka Dokumen Skripsi
+                          <i
+                            class="fa-solid fa-arrow-up-right-from-square text-[10px]"
+                          ></i>
+                        </a>
+
+                        <button
+                          type="button"
+                          onclick="closeModalProyek3()"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+                        >
+                          <i class="fa-solid fa-xmark text-xs text-slate-500"></i>
+                          Close
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1220,7 +1474,7 @@
             <!-- ==================== KARTU SLIDE 2 (EXCEL) ==================== -->
             <div
               onclick="openModalSertifikat()"
-              class="animate-item delay-2 group relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-amber-900/10 shadow-lg hover:shadow-2xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+              class="animate-item delay-2 group relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-amber-900/10 shadow-lg hover:shadow-2xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full"
             >
               <!-- Top Accent Glow Bar -->
               <div
@@ -1231,7 +1485,7 @@
                 <!-- Gambar Sertifikat dengan Overlay Hover -->
                 <div class="h-44 overflow-hidden relative bg-slate-100">
                   <img
-                    src="assets/excel.jpeg"
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80"
                     alt="Sertifikat Bootcamp Excel"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -1241,65 +1495,54 @@
                     <span
                       class="bg-white text-slate-900 px-4 py-2 rounded-full text-xs font-bold shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2"
                     >
-                      <i class="fa-solid fa-circle-info text-amber-600"></i>
+                      <i class="fa-solid fa-file-excel text-amber-600"></i>
                       Lihat Detail &rarr;
                     </span>
                   </div>
                   <div
-                    class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-md"
+                    class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md"
                   >
-                    Bootcamp Certified
+                    Sertifikasi Bootcamp
                   </div>
                 </div>
 
                 <!-- Ringkasan Singkat Kartu -->
                 <div class="p-5 space-y-2">
                   <h3
-                    class="font-serif text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors"
+                    class="font-serif text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors min-h-[3rem] line-clamp-2 leading-snug"
                   >
                     Bootcamp Pengolahan Data Excel
                   </h3>
-                  <p class="text-slate-600 text-xs line-clamp-3 text-justify">
-                    Pelatihan intensif pengolahan data, formula tingkat lanjut,
-                    pivot table, dan pembuatan dashboard interaktif.
+                  <p class="text-slate-600 text-xs line-clamp-3 leading-relaxed min-h-[3rem]">
+                    Pelatihan intensif pengolahan data, formula tingkat lanjut (XLOOKUP, Pivot Table), dan pembuatan dashboard bisnis.
                   </p>
                 </div>
               </div>
 
               <!-- Footer Kartu Depan: Hanya Badge Tool -->
               <div
-                class="px-5 py-3 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between"
+                class="px-4 py-3 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between text-xs mt-auto"
               >
                 <span
-                  class="text-xs font-semibold text-slate-500 flex items-center gap-1.5"
+                  class="font-semibold text-slate-500 flex items-center gap-1.5"
                 >
-                  <i class="fa-solid fa-certificate text-amber-500"></i>
-                  Sertifikat Bootcamp
+                  <i class="fa-solid fa-table text-amber-500"></i> Data Analyst
                 </span>
                 <span
-                  class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md text-[11px] font-bold flex items-center gap-1"
+                  class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-md text-[11px] font-bold flex items-center gap-1"
                 >
-                  <i class="fa-solid fa-file-excel text-emerald-600"></i> MS
-                  Excel
+                  <i class="fa-solid fa-file-excel text-emerald-600"></i> MS Excel
                 </span>
               </div>
             </div>
             <!-- ==================== MODAL POPUP 2 (DETAIL & QR CODE BISA DI-SCAN) ==================== -->
             <div
               id="modalSertifikat"
-              class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
+              class="fixed inset-0 z-[60] hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
             >
               <div
                 class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in duration-200"
               >
-                <!-- Tombol Close Modal -->
-                <button
-                  onclick="closeModalSertifikat()"
-                  class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition-colors"
-                >
-                  <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-
                 <!-- Header Modal Gambar -->
                 <div class="h-52 relative bg-slate-900 overflow-hidden">
                   <img
@@ -1383,19 +1626,32 @@
                         berkas sertifikat asli yang tersimpan di Google Drive.
                       </p>
 
-                      <!-- Button Link Google Drive -->
-                      <a
-                        href="https://drive.google.com/drive/folders/17b-s3X_daBP4nl4V0oBRPH-vO6rinQ3O?usp=drive_link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md transition-all duration-300 hover:-translate-y-0.5"
+                      <!-- Button Aksi: Buka Folder Sertifikat & Close -->
+                      <div
+                        class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-1"
                       >
-                        <i class="fa-brands fa-google-drive"></i>
-                        Buka Folder Sertifikat
-                        <i
-                          class="fa-solid fa-arrow-up-right-from-square text-[10px]"
-                        ></i>
-                      </a>
+                        <a
+                          href="https://drive.google.com/drive/folders/17b-s3X_daBP4nl4V0oBRPH-vO6rinQ3O?usp=drive_link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md transition-all duration-300 hover:-translate-y-0.5"
+                        >
+                          <i class="fa-brands fa-google-drive"></i>
+                          Buka Folder Sertifikat
+                          <i
+                            class="fa-solid fa-arrow-up-right-from-square text-[10px]"
+                          ></i>
+                        </a>
+
+                        <button
+                          type="button"
+                          onclick="closeModalSertifikat()"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+                        >
+                          <i class="fa-solid fa-xmark text-xs text-slate-500"></i>
+                          Close
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1405,7 +1661,7 @@
             <!-- ==================== KARTU SLIDE 3 (NAIVE BAYES) ==================== -->
             <div
               onclick="openModalProyek2()"
-              class="animate-item delay-3 group relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-amber-900/10 shadow-lg hover:shadow-2xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+              class="animate-item delay-3 group relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-amber-900/10 shadow-lg hover:shadow-2xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full"
             >
               <!-- Top Accent Glow Bar -->
               <div
@@ -1416,7 +1672,7 @@
                 <!-- Gambar Proyek dengan Overlay Hover -->
                 <div class="h-44 overflow-hidden relative bg-slate-100">
                   <img
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80"
+                    src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&auto=format&fit=crop&q=80"
                     alt="Prediksi Persetujuan Pinjaman Bank Naïve Bayes"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -1426,12 +1682,12 @@
                     <span
                       class="bg-white text-slate-900 px-4 py-2 rounded-full text-xs font-bold shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2"
                     >
-                      <i class="fa-solid fa-circle-info text-amber-600"></i>
+                      <i class="fa-solid fa-chart-pie text-amber-600"></i>
                       Lihat Detail &rarr;
                     </span>
                   </div>
                   <div
-                    class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-md"
+                    class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md"
                   >
                     Project UAS Data Mining
                   </div>
@@ -1440,52 +1696,40 @@
                 <!-- Ringkasan Singkat Kartu -->
                 <div class="p-5 space-y-2">
                   <h3
-                    class="font-serif text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors"
+                    class="font-serif text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors min-h-[3rem] line-clamp-2 leading-snug"
                   >
                     Prediksi Persetujuan Pinjaman Bank
                   </h3>
-                  <p class="text-slate-600 text-xs line-clamp-3 text-justify">
-                    Klasifikasi kelayakan pengajuan pinjaman nasabah bank
-                    menggunakan algoritma Naïve Bayes berbasis 13 atribut,
-                    menghasilkan akurasi 91,86% dan nilai AUC 0,960.
+                  <p class="text-slate-600 text-xs line-clamp-3 leading-relaxed min-h-[3rem]">
+                    Klasifikasi kelayakan kredit nasabah bank menggunakan algoritma Naïve Bayes (13 atribut), akurasi 91,86% dan AUC 0,960.
                   </p>
                 </div>
               </div>
 
               <!-- Footer Kartu Depan: Badge Tool -->
               <div
-                class="px-5 py-3 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between"
+                class="px-4 py-3 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between text-xs mt-auto"
               >
                 <span
-                  class="text-xs font-semibold text-slate-500 flex items-center gap-1.5"
+                  class="font-semibold text-slate-500 flex items-center gap-1.5"
                 >
-                  <i class="fa-solid fa-brain text-amber-500"></i>
-                  Naïve Bayes
+                  <i class="fa-solid fa-brain text-amber-500"></i> Data Mining
                 </span>
                 <span
-                  class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-md text-[11px] font-bold flex items-center gap-1"
+                  class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-md text-[11px] font-bold flex items-center gap-1"
                 >
-                  <i class="fa-solid fa-chart-line text-amber-600"></i>
-                  RapidMiner &amp; Excel
+                  <i class="fa-solid fa-chart-pie text-amber-600"></i> Naïve Bayes
                 </span>
               </div>
             </div>
             <!-- ==================== MODAL POPUP PROYEK 3 (DENGAN 2 QR CODE TERPISAH) ==================== -->
             <div
               id="modalProyek2"
-              class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
+              class="fixed inset-0 z-[60] hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
             >
               <div
                 class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto"
               >
-                <!-- Tombol Close Modal -->
-                <button
-                  onclick="closeModalProyek2()"
-                  class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition-colors"
-                >
-                  <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-
                 <!-- Header Modal Gambar -->
                 <div class="h-48 relative bg-slate-900 overflow-hidden">
                   <img
@@ -1573,16 +1817,31 @@
                         Excel.
                       </p>
 
-                      <div class="pt-1">
+                      <!-- Button Aksi: Buka Folder Proyek & Close -->
+                      <div
+                        class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-1"
+                      >
                         <a
                           href="https://drive.google.com/drive/folders/1mXAcIMc7KIOrVj-kjrKNntUozFBy64c_?usp=sharing"
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all duration-300 hover:-translate-y-0.5"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md transition-all duration-300 hover:-translate-y-0.5"
                         >
-                          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                          <i class="fa-brands fa-google-drive"></i>
                           Buka Folder Proyek
+                          <i
+                            class="fa-solid fa-arrow-up-right-from-square text-[10px]"
+                          ></i>
                         </a>
+
+                        <button
+                          type="button"
+                          onclick="closeModalProyek2()"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+                        >
+                          <i class="fa-solid fa-xmark text-xs text-slate-500"></i>
+                          Close
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -1593,7 +1852,7 @@
             <!-- 1. KARTU PROYEK NEONATAL -->
             <div
               onclick="openModalProyekNeonatal()"
-              class="animate-item delay-4 group relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-amber-900/10 shadow-lg hover:shadow-2xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+              class="animate-item delay-4 group relative bg-white/90 backdrop-blur-xl rounded-3xl overflow-hidden border border-amber-900/10 shadow-lg hover:shadow-2xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full"
             >
               <!-- Top Accent Glow Bar -->
               <div
@@ -1614,12 +1873,12 @@
                     <span
                       class="bg-white text-slate-900 px-4 py-2 rounded-full text-xs font-bold shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2"
                     >
-                      <i class="fa-solid fa-circle-info text-amber-600"></i>
+                      <i class="fa-solid fa-stethoscope text-amber-600"></i>
                       Lihat Detail &rarr;
                     </span>
                   </div>
                   <div
-                    class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full shadow-md"
+                    class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md"
                   >
                     Hibah Penelitian Dosen
                   </div>
@@ -1628,30 +1887,27 @@
                 <!-- Ringkasan Singkat Kartu -->
                 <div class="p-5 space-y-2">
                   <h3
-                    class="font-serif text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors"
+                    class="font-serif text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors min-h-[3rem] line-clamp-2 leading-snug"
                   >
                     Sistem Pakar Diagnosis Neonatal
                   </h3>
-                  <p class="text-slate-600 text-xs line-clamp-3 text-justify">
-                    Aplikasi sistem pakar berbasis web untuk membantu diagnosis
-                    awal kondisi neonatal pada bayi baru lahir menggunakan
-                    metode Forward Chaining dan Certainty Factor.
+                  <p class="text-slate-600 text-xs line-clamp-3 leading-relaxed min-h-[3rem]">
+                    Aplikasi sistem pakar web untuk diagnosis awal kondisi neonatal bayi baru lahir menggunakan Forward Chaining dan Certainty Factor.
                   </p>
                 </div>
               </div>
 
               <!-- Footer Kartu Depan: Badge Tool -->
               <div
-                class="px-5 py-3 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between"
+                class="px-4 py-3 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between text-xs mt-auto"
               >
                 <span
-                  class="text-xs font-semibold text-slate-500 flex items-center gap-1.5"
+                  class="font-semibold text-slate-500 flex items-center gap-1.5"
                 >
-                  <i class="fa-solid fa-stethoscope text-amber-500"></i>
-                  Forward Chaining &amp; CF
+                  <i class="fa-solid fa-stethoscope text-amber-500"></i> Sistem Pakar
                 </span>
                 <span
-                  class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-md text-[11px] font-bold flex items-center gap-1"
+                  class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-md text-[11px] font-bold flex items-center gap-1"
                 >
                   <i class="fa-solid fa-code text-amber-600"></i> Web System
                 </span>
@@ -1661,19 +1917,11 @@
             <!-- 2. MODAL DETAIL PROYEK NEONATAL -->
             <div
               id="modalProyekNeonatal"
-              class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
+              class="fixed inset-0 z-[60] hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
             >
               <div
                 class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto"
               >
-                <!-- Tombol Close Modal -->
-                <button
-                  onclick="closeModalProyekNeonatal()"
-                  class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition-colors"
-                >
-                  <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-
                 <!-- Header Modal Gambar -->
                 <div class="h-48 relative bg-slate-900 overflow-hidden">
                   <img
@@ -1757,16 +2005,28 @@
                         neonatal.
                       </p>
 
-                      <div class="pt-1">
+                      <!-- Button Aksi: Buka Proyek & Close -->
+                      <div
+                        class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-1"
+                      >
                         <a
                           href="https://your-neonatal-expert-system.com"
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all duration-300 hover:-translate-y-0.5"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md transition-all duration-300 hover:-translate-y-0.5"
                         >
                           <i class="fa-solid fa-arrow-up-right-from-square"></i>
                           Buka Proyek
                         </a>
+
+                        <button
+                          type="button"
+                          onclick="closeModalProyekNeonatal()"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+                        >
+                          <i class="fa-solid fa-xmark text-xs text-slate-500"></i>
+                          Close
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -1785,6 +2045,14 @@
                 const modal = document.getElementById("modalProyekNeonatal");
                 if (modal) modal.classList.add("hidden");
               }
+
+              // Tutup modal jika user mengklik area gelap di luar modal
+              window.addEventListener("click", function (e) {
+                const modal = document.getElementById("modalProyekNeonatal");
+                if (e.target === modal) {
+                  closeModalProyekNeonatal();
+                }
+              });
             </script>
           </div>
         </div>
@@ -1797,16 +2065,16 @@
             <div
               class="animate-item delay-1 inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-800 text-xs font-bold tracking-widest uppercase"
             >
-              <span>Karya &amp; Proyek</span>
+              <span>Pengalaman Kerja</span>
             </div>
             <h2
-              class="animate-item delay-2 font-serif text-4xl md:text-5xl font-bold text-slate-900"
+              class="animate-item delay-2 font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900"
             >
-              Portofolio Pilihan
+              Rekam Jejak Profesional
             </h2>
-            <p class="animate-item delay-3 text-slate-500 text-sm">
-              Klik pada salah satu kartu proyek di bawah untuk melihat detail
-              lengkap.
+            <p class="animate-item delay-3 text-slate-500 text-xs md:text-sm">
+              Klik pada salah satu kartu pengalaman di bawah untuk melihat detail
+              peran dan kontribusi.
             </p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1960,19 +2228,11 @@
             <!-- ==================== MODAL POPUP (DETAIL DATA ENTRY RA AS SALAM) ==================== -->
             <div
               id="modalDataEntry"
-              class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
+              class="fixed inset-0 z-[60] hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
             >
               <div
                 class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto"
               >
-                <!-- Tombol Close Modal -->
-                <button
-                  onclick="closeModalDataEntry()"
-                  class="absolute top-4 right-4 z-20 w-9 h-9 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition-colors"
-                >
-                  <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-
                 <!-- Header Modal Visual -->
                 <div
                   class="h-52 relative bg-gradient-to-br from-slate-900 via-slate-800 to-amber-950 overflow-hidden flex flex-col justify-end p-6"
@@ -2097,6 +2357,20 @@
                       </p>
                     </div>
                   </div>
+
+                  <!-- Button Aksi: Close -->
+                  <div
+                    class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2"
+                  >
+                    <button
+                      type="button"
+                      onclick="closeModalDataEntry()"
+                      class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+                    >
+                      <i class="fa-solid fa-xmark text-xs text-slate-500"></i>
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2112,6 +2386,14 @@
                 const modal = document.getElementById("modalDataEntry");
                 if (modal) modal.classList.add("hidden");
               }
+
+              // Tutup modal jika user mengklik area gelap di luar modal
+              window.addEventListener("click", function (e) {
+                const modal = document.getElementById("modalDataEntry");
+                if (e.target === modal) {
+                  closeModalDataEntry();
+                }
+              });
             </script>
             <!-- ==================== KARTU SLIDE 2 (LPPM UNIVERSITAS CIPASUNG) ==================== -->
             <div
@@ -2193,19 +2475,11 @@
             <!-- ==================== MODAL POPUP (DETAIL & QR CODE LPPM) ==================== -->
             <div
               id="modalLPPM"
-              class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
+              class="fixed inset-0 z-[60] hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
             >
               <div
                 class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto"
               >
-                <!-- Tombol Close Modal -->
-                <button
-                  onclick="closeModalLPPM()"
-                  class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition-colors"
-                >
-                  <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-
                 <!-- Header Modal Gambar -->
                 <div class="h-52 relative bg-slate-900 overflow-hidden">
                   <img
@@ -2291,18 +2565,32 @@
                         Universitas Cipasung di Google Drive.
                       </p>
 
-                      <a
-                        href="https://drive.google.com/drive/folders/1cUgHwYsmIvZU6ttKeOtYhroMe3u-KGV-?usp=drive_link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md transition-all duration-300 hover:-translate-y-0.5"
+                      <!-- Button Aksi: Buka Folder Dokumentasi & Close -->
+                      <div
+                        class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-1"
                       >
-                        <i class="fa-brands fa-google-drive"></i>
-                        Buka Folder Dokumentasi
-                        <i
-                          class="fa-solid fa-arrow-up-right-from-square text-[10px]"
-                        ></i>
-                      </a>
+                        <a
+                          href="https://drive.google.com/drive/folders/1cUgHwYsmIvZU6ttKeOtYhroMe3u-KGV-?usp=drive_link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md transition-all duration-300 hover:-translate-y-0.5"
+                        >
+                          <i class="fa-brands fa-google-drive"></i>
+                          Buka Folder Dokumentasi
+                          <i
+                            class="fa-solid fa-arrow-up-right-from-square text-[10px]"
+                          ></i>
+                        </a>
+
+                        <button
+                          type="button"
+                          onclick="closeModalLPPM()"
+                          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+                        >
+                          <i class="fa-solid fa-xmark text-xs text-slate-500"></i>
+                          Close
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2320,6 +2608,14 @@
                 const modal = document.getElementById("modalLPPM");
                 if (modal) modal.classList.add("hidden");
               }
+
+              // Tutup modal jika user mengklik area gelap di luar modal
+              window.addEventListener("click", function (e) {
+                const modal = document.getElementById("modalLPPM");
+                if (e.target === modal) {
+                  closeModalLPPM();
+                }
+              });
             </script>
             <!-- ==================== KARTU PRAKTEK KERJA INDUSTRI (NIKA KOMPUTER) ==================== -->
             <div
@@ -2402,19 +2698,11 @@
             <!-- ==================== MODAL POPUP (DETAIL PRAKTEK KERJA INDUSTRI) ==================== -->
             <div
               id="modalPKL"
-              class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
+              class="fixed inset-0 z-[60] hidden bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300"
             >
               <div
                 class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto"
               >
-                <!-- Tombol Close Modal -->
-                <button
-                  onclick="closeModalPKL()"
-                  class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition-colors"
-                >
-                  <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-
                 <!-- Header Modal Gambar -->
                 <div class="h-52 relative bg-slate-900 overflow-hidden">
                   <img
@@ -2512,6 +2800,33 @@
                       <p class="text-[11px] text-slate-600">Terverifikasi</p>
                     </div>
                   </div>
+
+                  <!-- Button Aksi: Lihat Sertifikat PKL & Close -->
+                  <div
+                    class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2"
+                  >
+                    <a
+                      href="assets/Praktek%20Kerja%20Industri%20.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl shadow-md transition-all duration-300 hover:-translate-y-0.5"
+                    >
+                      <i class="fa-solid fa-file-pdf"></i>
+                      Lihat Sertifikat PKL
+                      <i
+                        class="fa-solid fa-arrow-up-right-from-square text-[10px]"
+                      ></i>
+                    </a>
+
+                    <button
+                      type="button"
+                      onclick="closeModalPKL()"
+                      class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+                    >
+                      <i class="fa-solid fa-xmark text-xs text-slate-500"></i>
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2527,13 +2842,21 @@
                 const modal = document.getElementById("modalPKL");
                 if (modal) modal.classList.add("hidden");
               }
+
+              // Tutup modal jika user mengklik area gelap di luar modal
+              window.addEventListener("click", function (e) {
+                const modal = document.getElementById("modalPKL");
+                if (e.target === modal) {
+                  closeModalPKL();
+                }
+              });
             </script>
           </div>
         </div>
       </section>
 
-      <!-- ==================== SLIDE 5: CONTACT ==================== -->
-      <section class="presentation-slide px-8 lg:px-20 pt-16" data-index="5">
+      <!-- ==================== SLIDE 6: CONTACT ==================== -->
+      <section class="presentation-slide px-6 lg:px-20 pt-16 pb-12" data-index="5">
         <!-- Glowing Background Orbs -->
         <div
           class="animate-float-1 absolute -top-20 -left-20 w-80 h-80 bg-amber-400/15 rounded-full blur-3xl pointer-events-none"
@@ -2543,42 +2866,41 @@
         ></div>
 
         <div
-          class="max-w-5xl w-full space-y-10 text-center mx-auto relative z-10"
+          class="max-w-4xl w-full space-y-8 text-center mx-auto relative z-10"
         >
           <!-- Header Section -->
           <div class="space-y-3 max-w-2xl mx-auto">
             <div
               class="animate-item delay-1 inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-amber-500/10 via-amber-400/20 to-amber-600/10 border border-amber-500/30 rounded-full text-amber-900 text-xs font-bold tracking-widest uppercase shadow-sm hover:scale-105 transition-transform duration-300"
             >
-              <i class="fa-solid fa-comments text-amber-600 animate-pulse"></i>
-              <span>Mari Terhubung</span>
+              <i class="fa-solid fa-paper-plane text-amber-600 animate-pulse"></i>
+              <span>Kontak &amp; Kolaborasi</span>
             </div>
 
             <h2
-              class="animate-item delay-2 font-serif text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight"
+              class="animate-item delay-2 font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight"
             >
-              Let's Discuss Your Project
+              Mari Terhubung &amp; <span class="text-amber-600">Berkolaborasi</span>
             </h2>
 
             <p
               class="animate-item delay-3 text-slate-600 text-sm md:text-base leading-relaxed"
             >
-              Punya proyek analitik data, pembuatan dashboard visualisasi, atau
-              perancangan sistem informasi? Jangan ragu untuk berdiskusi dan
-              membangun solusi bersama.
+              Terbuka untuk peluang karir di bidang <strong class="text-slate-800 font-semibold">Data Analyst</strong>, <strong class="text-slate-800 font-semibold">System Analyst</strong>, proyek visualisasi data, maupun diskusi profesional lainnya.
             </p>
           </div>
+
           <!-- Contact Grid Container (3 Kolom: Email, WhatsApp, LinkedIn) -->
           <div
             class="animate-item delay-4 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
           >
             <!-- Kartu 1: Email -->
             <a
-              href="mailto:mutiamaharani434@email.com"
-              class="group bg-white/90 backdrop-blur-xl p-6 rounded-3xl border border-amber-900/10 shadow-lg hover:shadow-xl hover:border-amber-400/60 hover:-translate-y-2 transition-all duration-300 flex items-center gap-4 text-left relative overflow-hidden"
+              href="mailto:mutiamaharani434@gmail.com"
+              class="group bg-white/90 backdrop-blur-xl p-6 rounded-3xl border border-amber-900/10 shadow-md hover:shadow-xl hover:border-amber-400/60 hover:-translate-y-1.5 transition-all duration-300 flex items-center gap-4 text-left relative overflow-hidden"
             >
               <div
-                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 text-amber-700 flex items-center justify-center text-2xl font-bold flex-shrink-0 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white shadow-md transition-all duration-300"
+                class="w-13 h-13 w-13 h-13 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-2xl font-bold flex-shrink-0 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white shadow-sm transition-all duration-300 p-3"
               >
                 <i class="fa-solid fa-envelope"></i>
               </div>
@@ -2588,24 +2910,27 @@
                 >
                   Email
                 </h4>
-                <p class="text-xs text-slate-600 truncate font-medium">
-                  mutiamaharani434@email.com
+                <p
+                  class="text-xs text-slate-600 font-medium truncate w-full mt-0.5"
+                >
+                  mutiamaharani434@gmail.com
                 </p>
                 <span
-                  class="text-[10px] text-amber-700 font-bold flex items-center gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  class="text-[10px] text-amber-600 font-bold flex items-center gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
-                  Kirim Email <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                  Kirim Email <i class="fa-solid fa-arrow-right text-[8px]"></i>
                 </span>
               </div>
             </a>
+
             <!-- Kartu 2: WhatsApp -->
             <a
-              href="https://wa.me/6285323063150"
+              href="https://wa.me/6285323063150?text=Halo%20Mutia%20Maharani,%20saya%20tertarik%20untuk%20terhubung%20dan%20berdiskusi."
               target="_blank"
-              class="group bg-white/90 backdrop-blur-xl p-6 rounded-3xl border border-amber-900/10 shadow-lg hover:shadow-xl hover:border-emerald-400/60 hover:-translate-y-2 transition-all duration-300 flex items-center gap-4 text-left relative overflow-hidden"
+              class="group bg-white/90 backdrop-blur-xl p-6 rounded-3xl border border-amber-900/10 shadow-md hover:shadow-xl hover:border-emerald-400/60 hover:-translate-y-1.5 transition-all duration-300 flex items-center gap-4 text-left relative overflow-hidden"
             >
               <div
-                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-700 flex items-center justify-center text-2xl font-bold flex-shrink-0 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white shadow-md transition-all duration-300"
+                class="w-13 h-13 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-2xl font-bold flex-shrink-0 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white shadow-sm transition-all duration-300 p-3"
               >
                 <i class="fa-brands fa-whatsapp"></i>
               </div>
@@ -2615,25 +2940,25 @@
                 >
                   WhatsApp
                 </h4>
-                <p class="text-xs text-slate-600 truncate font-medium">
-                  +62 85323063150
+                <p class="text-xs text-slate-600 font-medium mt-0.5">
+                  +62 853-2306-3150
                 </p>
                 <span
-                  class="text-[10px] text-emerald-700 font-bold flex items-center gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  class="text-[10px] text-emerald-600 font-bold flex items-center gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
-                  Chat WhatsApp
-                  <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                  Chat Langsung <i class="fa-solid fa-arrow-right text-[8px]"></i>
                 </span>
               </div>
             </a>
+
             <!-- Kartu 3: LinkedIn -->
             <a
               href="https://linkedin.com/in/mutiamaharani"
               target="_blank"
-              class="group bg-white/90 backdrop-blur-xl p-6 rounded-3xl border border-amber-900/10 shadow-lg hover:shadow-xl hover:border-sky-400/60 hover:-translate-y-2 transition-all duration-300 flex items-center gap-4 text-left relative overflow-hidden"
+              class="group bg-white/90 backdrop-blur-xl p-6 rounded-3xl border border-amber-900/10 shadow-md hover:shadow-xl hover:border-sky-400/60 hover:-translate-y-1.5 transition-all duration-300 flex items-center gap-4 text-left relative overflow-hidden"
             >
               <div
-                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-100 to-sky-50 text-sky-700 flex items-center justify-center text-2xl font-bold flex-shrink-0 group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white shadow-md transition-all duration-300"
+                class="w-13 h-13 rounded-2xl bg-sky-500/10 text-sky-600 flex items-center justify-center text-2xl font-bold flex-shrink-0 group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white shadow-sm transition-all duration-300 p-3"
               >
                 <i class="fa-brands fa-linkedin-in"></i>
               </div>
@@ -2643,32 +2968,104 @@
                 >
                   LinkedIn
                 </h4>
-                <p class="text-xs text-slate-600 truncate font-medium">
-                  Mutia Maharani, S.Kom
+                <p class="text-xs text-slate-600 font-medium mt-0.5">
+                  Mutia Maharani
                 </p>
                 <span
-                  class="text-[10px] text-sky-700 font-bold flex items-center gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  class="text-[10px] text-sky-600 font-bold flex items-center gap-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
-                  Kunjungi Profil
-                  <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                  Kunjungi Profil <i class="fa-solid fa-arrow-right text-[8px]"></i>
                 </span>
               </div>
             </a>
           </div>
-          <!-- Direct CTA Banner -->
-          <div class="animate-item delay-4 pt-4">
+
+          <!-- Direct CTA Action (WhatsApp) -->
+          <div class="animate-item delay-4 pt-3">
             <a
-              href="https://wa.me/6285323063150?text=Halo%20Mutia,%20saya%20tertarik%20untuk%20berdiskusi%20mengenai%20proyek%20analisis%20data/sistem."
+              href="https://wa.me/6285323063150?text=Halo%20Mutia%20Maharani,%20saya%20tertarik%20untuk%20berdiskusi%20mengenai%20peluang%20kerja%20atau%20proyek."
               target="_blank"
-              class="inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-sm rounded-full shadow-lg hover:shadow-amber-500/30 hover:scale-105 transition-all duration-300"
+              class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-sm rounded-full shadow-lg shadow-amber-500/25 hover:scale-105 transition-all duration-300"
             >
               <i class="fa-brands fa-whatsapp text-lg"></i>
-              <span>Mulai Konsultasi Gratis via WhatsApp</span>
+              <span>Hubungi via WhatsApp</span>
             </a>
+          </div>
+
+          <!-- Footer Watermark Halus -->
+          <div
+            class="animate-item delay-4 pt-3 text-xs text-slate-400 font-medium"
+          >
+            <p>© 2026 Mutia Maharani, S.Kom • Portofolio &amp; Analisis Sistem</p>
           </div>
         </div>
       </section>
     </main>
+
+    <!-- Floating Mobile Guide & Navigasi Petunjuk Menu Selanjutnya -->
+    <div
+      id="mobileNavGuide"
+      class="fixed bottom-4 inset-x-0 z-40 px-3 flex flex-col items-center justify-center md:hidden pointer-events-none"
+    >
+      <!-- Tooltip Petunjuk Interaktif (Muncul jika user mencoba geser layar) -->
+      <div
+        id="mobileSwipeHint"
+        class="pointer-events-none mb-2 px-3 py-1.5 bg-slate-900/95 backdrop-blur-md text-white text-[11px] font-semibold rounded-full border border-amber-400/40 shadow-xl opacity-0 transition-opacity duration-300 flex items-center gap-1.5"
+      >
+        <i class="fa-solid fa-hand-pointer text-amber-400 animate-bounce"></i>
+        <span>Ketuk petunjuk di bawah untuk lanjut</span>
+      </div>
+
+      <!-- Container Bar Navigasi Mengambang -->
+      <div
+        class="pointer-events-auto flex items-center gap-1.5 bg-slate-950/85 backdrop-blur-xl border border-amber-500/30 p-1.5 pl-2.5 pr-1.5 rounded-full shadow-2xl shadow-slate-950/50"
+      >
+        <!-- Tombol Prev (Hanya muncul jika slide > 0) -->
+        <button
+          id="mobilePrevBtn"
+          type="button"
+          onclick="prevSlide()"
+          class="w-8 h-8 rounded-full bg-slate-800/90 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-xs transition-colors hidden cursor-pointer"
+          aria-label="Kembali ke slide sebelumnya"
+          title="Kembali ke slide sebelumnya"
+        >
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <!-- Indikator Posisi / Status Slide -->
+        <div
+          class="flex items-center px-2 text-[11px] font-bold text-amber-400 tracking-wider"
+        >
+          <span
+            id="mobileSlideCounter"
+            class="bg-amber-500/15 px-2 py-0.5 rounded-full border border-amber-500/30"
+            >1/6</span
+          >
+        </div>
+
+        <!-- Tombol / Ikon Petunjuk Mengarah ke Menu Selanjutnya -->
+        <button
+          id="mobileNextGuideBtn"
+          type="button"
+          onclick="handleMobileNext()"
+          class="guide-pulse flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-amber-500 via-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xs font-bold rounded-full shadow-lg shadow-amber-500/30 transition-all duration-300 active:scale-95 cursor-pointer group"
+          aria-label="Lanjut ke menu selanjutnya"
+        >
+          <span class="text-amber-100 font-normal text-[11px]">Lanjut:</span>
+          <span id="mobileNextMenuLabel" class="tracking-wide">About</span>
+
+          <!-- Ikon Petunjuk dengan Animasi Mengarah ke Menu Selanjutnya -->
+          <span
+            class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-white transition-transform group-hover:scale-110 ml-0.5"
+          >
+            <i
+              id="mobileNextIcon"
+              class="fa-solid fa-arrow-right text-[11px] animate-guide-arrow"
+            ></i>
+          </span>
+        </button>
+      </div>
+    </div>
     <!-- Script Kontrol Transisi, Navigasi, & Pop-Up Detail Proyek -->
     <script>
       function openModalProyek2() {
@@ -2707,11 +3104,79 @@
       const slides = document.querySelectorAll(".presentation-slide");
       const navBtns = document.querySelectorAll(".nav-btn");
       const totalSlides = slides.length;
+      const slideNames = [
+        "Home",
+        "About",
+        "Services",
+        "Project",
+        "Experience",
+        "Contact",
+      ];
+
+      function updateMobileGuide() {
+        const counter = document.getElementById("mobileSlideCounter");
+        const prevBtn = document.getElementById("mobilePrevBtn");
+        const nextLabel = document.getElementById("mobileNextMenuLabel");
+        const nextIcon = document.getElementById("mobileNextIcon");
+
+        if (!counter || !prevBtn || !nextLabel || !nextIcon) return;
+
+        counter.innerText = currentSlide + 1 + " / " + totalSlides;
+
+        if (currentSlide > 0) {
+          prevBtn.classList.remove("hidden");
+        } else {
+          prevBtn.classList.add("hidden");
+        }
+
+        if (currentSlide < totalSlides - 1) {
+          nextLabel.innerText = slideNames[currentSlide + 1];
+          nextIcon.className =
+            "fa-solid fa-arrow-right text-[11px] animate-guide-arrow";
+        } else {
+          nextLabel.innerText = "Home";
+          nextIcon.className =
+            "fa-solid fa-rotate-left text-[11px] animate-guide-arrow";
+        }
+
+        nextLabel.classList.remove("animate-title-fade");
+        void nextLabel.offsetWidth;
+        nextLabel.classList.add("animate-title-fade");
+      }
+
+      function handleMobileNext() {
+        if (currentSlide < totalSlides - 1) {
+          nextSlide();
+        } else {
+          goToSlide(0);
+        }
+      }
+
+      let hintTimeout = null;
+      function triggerGuideHint() {
+        const nextBtn = document.getElementById("mobileNextGuideBtn");
+        const hint = document.getElementById("mobileSwipeHint");
+        if (nextBtn) {
+          nextBtn.classList.remove("guide-attention");
+          void nextBtn.offsetWidth;
+          nextBtn.classList.add("guide-attention");
+        }
+        if (hint) {
+          hint.classList.remove("opacity-0", "pointer-events-none");
+          hint.classList.add("guide-tooltip-show");
+          if (hintTimeout) clearTimeout(hintTimeout);
+          hintTimeout = setTimeout(() => {
+            hint.classList.remove("guide-tooltip-show");
+            hint.classList.add("opacity-0", "pointer-events-none");
+          }, 2000);
+        }
+      }
 
       function updateSlideView() {
         slides.forEach((slide, index) => {
           if (index === currentSlide) {
             slide.classList.add("active");
+            slide.scrollTop = 0;
           } else {
             slide.classList.remove("active");
           }
@@ -2726,7 +3191,43 @@
               "nav-btn px-4 py-2 rounded-full text-xs uppercase tracking-wider font-medium text-slate-600 hover:text-amber-700 hover:bg-amber-50 transition-all";
           }
         });
+
+        updateMobileGuide();
       }
+
+      // Inisialisasi tampilan panduan petunjuk mobile
+      updateMobileGuide();
+
+      // Sinkronisasi status modal untuk menyembunyikan navbar utama (#mainHeader)
+      const allModalIds = [
+        "modalProyek3",
+        "modalSertifikat",
+        "modalProyek2",
+        "modalProyekNeonatal",
+        "modalDataEntry",
+        "modalLPPM",
+        "modalPKL",
+      ];
+
+      function syncModalState() {
+        const isAnyOpen = allModalIds.some((id) => {
+          const el = document.getElementById(id);
+          return el && !el.classList.contains("hidden");
+        });
+        if (isAnyOpen) {
+          document.body.classList.add("modal-open");
+        } else {
+          document.body.classList.remove("modal-open");
+        }
+      }
+
+      allModalIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          const observer = new MutationObserver(syncModalState);
+          observer.observe(el, { attributes: true, attributeFilter: ["class"] });
+        }
+      });
 
       function goToSlide(index) {
         if (index >= 0 && index < totalSlides) {
@@ -2791,12 +3292,20 @@
           prevSlide();
         } else if (e.key === "Escape") {
           closeModal();
+          if (typeof closeModalProyek3 === "function") closeModalProyek3();
+          if (typeof closeModalSertifikat === "function") closeModalSertifikat();
+          if (typeof closeModalProyek2 === "function") closeModalProyek2();
+          if (typeof closeModalProyekNeonatal === "function") closeModalProyekNeonatal();
+          if (typeof closeModalDataEntry === "function") closeModalDataEntry();
+          if (typeof closeModalLPPM === "function") closeModalLPPM();
+          if (typeof closeModalPKL === "function") closeModalPKL();
         }
       });
 
-      // Dukungan Swipe Touch untuk Perangkat Mobile
+      // Pengendali Sentuhan Mobile: Geser (Swipe) tidak langsung memindahkan slide
+      // melainkan memberi animasi petunjuk yang mengarahkan ke tombol menu selanjutnya
       let touchStartX = 0;
-      let touchEndX = 0;
+      let touchStartY = 0;
 
       document.addEventListener(
         "touchstart",
@@ -2816,13 +3325,10 @@
           const diffX = touchEndX - touchStartX;
           const diffY = touchEndY - touchStartY;
 
-          // Hanya navigasi jika gerakan benar-benar horizontal
-          if (Math.abs(diffX) > 70 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
-            if (diffX < 0) {
-              nextSlide();
-            } else {
-              prevSlide();
-            }
+          // Jika user menggeser secara horizontal (swipe), jangan langsung pindah slide!
+          // Beri animasi visual dan petunjuk pada tombol menu selanjutnya
+          if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
+            triggerGuideHint();
           }
         },
         { passive: true },
